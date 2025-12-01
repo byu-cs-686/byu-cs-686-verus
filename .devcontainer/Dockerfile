@@ -1,4 +1,4 @@
-FROM debian:sid
+FROM debian:bookworm
 
 # Install system dependencies (except nodejs/npm — we install them separately)
 RUN apt-get update && apt-get install -y \
@@ -83,7 +83,7 @@ RUN ARCH=$(uname -m) && \
 
 # Install pip and pre-commit
 USER root
-RUN apt-get update && apt-get install -y python3-pip python3.13-venv
+RUN apt-get update && apt-get install -y python3-pip python3-venv
 
 USER vscode
 ENV PRECOMMIT_VENV=/home/vscode/.precommit-venv
