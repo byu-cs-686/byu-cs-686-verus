@@ -1,4 +1,6 @@
-FROM debian:bookworm
+FROM ubuntu:24.04
+
+ENV DEBIAN_FRONTEND=noninteractive
 
 # Install system dependencies (except nodejs/npm — we install them separately)
 RUN apt-get update && apt-get install -y \
@@ -27,8 +29,8 @@ USER vscode
 # Build z3
 RUN git clone https://github.com/Z3Prover/z3.git /home/vscode/z3 && \
     cd /home/vscode/z3 && \
-    git fetch origin tag z3-4.12.5 && \
-    git checkout -b z3-4.12.5 tags/z3-4.12.5 && \
+    git fetch origin tag z3-4.16.0 && \
+    git checkout -b z3-4.16.0 tags/z3-4.16.0 && \
     python3 scripts/mk_make.py && \
     cd /home/vscode/z3/build && \
     make
@@ -41,7 +43,10 @@ USER vscode
 ENV VERUS_Z3_PATH="/usr/bin/z3"
 
 # Set up Rust
-RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
+ARG RUST_VERSION=1.97.1
+RUN curl https://sh.rustup.rs -sSf | sh -s -- \
+    -y \
+    --default-toolchain "${RUST_VERSION}"
 ENV PATH="/home/vscode/.cargo/bin:${PATH}"
 RUN rustup toolchain install 1.93.0
 
@@ -67,7 +72,7 @@ RUN npm install vscode-languageclient
 
 # Build Verus Analyzer server and package VSIX
 WORKDIR /home/vscode/verus-analyzer
-RUN cargo xtask dist --proof-action --client-patch-version 42
+RUN cargo xtask dist --client-patch-version 42
 
 # Adjust target as needed for your container arch
 WORKDIR /home/vscode/verus-analyzer/editors/code

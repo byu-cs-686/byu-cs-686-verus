@@ -34,13 +34,18 @@
     "customizations": {
         "vscode": {
             "settings": {
-                "verus-analyzer.verus.verusBinary": "/home/vscode/verus/source/target-verus/release/verus",
+                "verus-analyzer.verus.binary": "/home/vscode/verus/source/target-verus/release/verus",
                 "verus-analyzer.procMacro.enable": false
             },
             "extensions": [
                 "streetsidesoftware.code-spell-checker"
             ]
         }
+    },
+
+    // Workaround for virtiofs issue
+    "containerEnv": {
+        "CARGO_TARGET_DIR": "/home/vscode/.cache/cargo-target/byu-cs-686-verus"
     },
 
     // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
