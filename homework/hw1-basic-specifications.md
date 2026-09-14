@@ -13,7 +13,7 @@ This homework covers [3. Basic specifications](https://verus-lang.github.io/veru
 1. Given a `value: i32` and an range `[min: i32, max: i32]` with a positive `step: u16`, return `true` if and only if `value` is equal to one of the values that would be encountered stepping by `step` and starting at `min` and not exceeding `max`. Otherwise return `false`.
 
     * Write the specification for `spec fn spec_is_in_range_by_step(value: int, min: int, max: int, step: nat) -> (result: bool)`
-    * Implement `exec fn is_in_range_by_step(value: i32, min: i32, max: i32, step: u16) -> (result: bool)`
+    * Implement `exec fn is_in_range_by_step(value: i32, min: i32, max: i32, step: u16) -> (result: bool)` -- **Note**: use `checked_rem_euclid` rather than `%` since Verus is Euclidean and Rust is not
     * Write a specification for `exec fn is_in_range_by_step(value: i32, min: i32, max: i32, step: u16) -> (result: bool)` that says result always matches `spec fn spec_is_in_range_by_step(value: int, min: int, max: int, step: nat) -> (result: bool)` and show that that is the case in a separate _"test"_ function that uses `assert` to prove out interesting corner cases. The _"test"_ function should be in the `verus!` block and not annotated with `#[test]` as by _"test"_ we mean, "see if `verus` is able to prove these assertions."
 
 1. Given two `i32` values, return the absolute distance between the two values as a `u32` value.
