@@ -73,7 +73,7 @@ exec fn m(x0: isize) -> (x: isize)
 
 ### Problem 3
 
-Complete the proof of the implementation by hand using weakest pre-condition calculus.
+Complete the proof `lemma_median_spec_is_median` without the help of Verus. Here you need to inline the calls to `is_median_spec` and `median_spec` to show that `(m == median_spec(a, b, c)) ==> is_median_spec(a, b, c, m)` is a tautology.
 
 ```rust
 spec fn is_median_spec(a: int, b: int, c: int, m: int) -> (bool) {
@@ -82,7 +82,40 @@ spec fn is_median_spec(a: int, b: int, c: int, m: int) -> (bool) {
     ||| (m == c && (a <= c <= b || b <= c <= a))
 }
 
-spec fn median_spec(a: int, b: int, c: int) -> (int) {
+exec fn median_spec(a: int, b: int, c: int) -> (int) {
+    if (a >= b && a <= c) || (a >= c && a <= b) {
+        a
+    } else if (b >= a && b <= c) || (b >= c && b <= a) {
+        b
+    } else {
+        c
+    }
+}
+
+proof fn lemma_median_spec_is_median(a: int, b: int, c: int, m: int)
+    requires
+        m == median_spec(a, b, c)
+    ensures
+        is_median_spec(a, b, c, m)
+{
+
+}
+```
+
+Another way that you can think about this problem is the show that `true ==> wp(median_spec, Q)` is a tautology in the below code where `Q` is the predicate from the `ensures` statement.
+
+```rust
+exec fn median_spec(a: int, b: int, c: int) -> (m: int)
+    requires
+        true,
+    ensures
+        ({
+            ||| (m == a && (b <= a <= c || c <= a <= b))
+            ||| (m == b && (a <= b <= c || c <= b <= a))
+            ||| (m == c && (a <= c <= b || b <= c <= a))
+        }),
+
+{
     if (a >= b && a <= c) || (a >= c && a <= b) {
         a
     } else if (b >= a && b <= c) || (b >= c && b <= a) {
