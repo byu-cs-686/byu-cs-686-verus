@@ -1,6 +1,6 @@
 # Homework 5
 
-    Chapter [6. Datatypes: Structs and Enums](https://verus-lang.github.io/verus/guide/datatypes.html) and Chapter [7: Libraries](https://verus-lang.github.io/verus/guide/vstd.html). This homework has you write functional specifications, proofs, and implementations for computation involving basic collections.
+Chapter [6. Datatypes: Structs and Enums](https://verus-lang.github.io/verus/guide/datatypes.html) and Chapter [7: Libraries](https://verus-lang.github.io/verus/guide/vstd.html). This homework has you write functional specifications, proofs, and implementations for computation involving basic collections.
 
 # Problems
 
@@ -22,7 +22,7 @@ $$
 \mathtt{sum\_spec}(s.\mathtt{subrange}(0, i + 1)) == \mathtt{sum\_spec}(s.\mathtt{subrange}(0, i)) + s[i]
 $$
 
-There are many ways to prove out the above lemma, depending on how `sum_spec` is written, but likely the following lemma will be needed for an sequence `s` and `usize` `x`:
+There are many ways to prove out the above lemma, depending on how `sum_spec` is written, but likely the following lemma will be needed for a sequence `s` and `usize` `x`:
 
 $$
 \mathtt{sum\_spec}(s + \mathtt{seq!}[x]) == \mathtt{sum\_spec}(s) + x
