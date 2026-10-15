@@ -54,6 +54,10 @@ RUN rm -rf /home/vscode/verus && \
 
 RUN bash -l -c "cd /home/vscode/verus/source && source ../tools/activate && vargo build --release"
 
+# Make the Verus-pinned toolchain available to tools that invoke cargo/rustc
+# without an explicit `+toolchain`, including rust-analyzer.
+ENV RUSTUP_TOOLCHAIN=1.98.1
+
 # Install Verusfmt using the toolchain declared by the Verus checkout
 RUN cd /home/vscode/verus && cargo install verusfmt
 
@@ -70,7 +74,7 @@ RUN npm install vscode-languageclient
 
 # Build Verus Analyzer server and package VSIX
 WORKDIR /home/vscode/verus-analyzer
-RUN cargo xtask dist --client-patch-version 42
+RUN cargo +1.98.1 xtask dist --client-patch-version 42
 
 # Adjust target as needed for your container arch
 WORKDIR /home/vscode/verus-analyzer/editors/code
