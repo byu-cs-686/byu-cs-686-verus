@@ -48,14 +48,14 @@ RUN curl https://sh.rustup.rs -sSf | sh -s -- \
     --default-toolchain none
 ENV PATH="/home/vscode/.cargo/bin:${PATH}"
 
-# Install Verusfmt
-RUN cargo install verusfmt
-
 # Build Verus and vstd
 RUN rm -rf /home/vscode/verus && \
     git clone --recurse-submodules https://github.com/verus-lang/verus /home/vscode/verus
 
 RUN bash -l -c "cd /home/vscode/verus/source && source ../tools/activate && vargo build --release"
+
+# Install Verusfmt using the toolchain declared by the Verus checkout
+RUN cd /home/vscode/verus && cargo install verusfmt
 
 ENV VERUSROOT="/home/vscode/verus"
 ENV PATH="/home/vscode/verus/source/target-verus/release:${PATH}"
