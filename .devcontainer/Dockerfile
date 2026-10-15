@@ -43,12 +43,10 @@ USER vscode
 ENV VERUS_Z3_PATH="/usr/bin/z3"
 
 # Set up Rust
-ARG RUST_VERSION=1.97.1
 RUN curl https://sh.rustup.rs -sSf | sh -s -- \
     -y \
-    --default-toolchain "${RUST_VERSION}"
+    --default-toolchain none
 ENV PATH="/home/vscode/.cargo/bin:${PATH}"
-RUN rustup toolchain install 1.93.0
 
 # Install Verusfmt
 RUN cargo install verusfmt
